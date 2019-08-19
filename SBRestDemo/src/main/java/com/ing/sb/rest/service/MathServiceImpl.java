@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @author 278684
  *
  */
-@Service
+//@Service
 public class MathServiceImpl implements MathService {
 
 	/**
