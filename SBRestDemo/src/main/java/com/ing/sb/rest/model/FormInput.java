@@ -5,6 +5,7 @@ package com.ing.sb.rest.model;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 /**
  * Represent request data.
@@ -16,10 +17,12 @@ public class FormInput {
 
 	@Min(0)
 	@Max(1000)
+//	@Pattern(regexp="[0-9]*", message = "Must be a number")
 	private int number1;
 	
 	@Min(0)
 	@Max(1000)
+//	@Pattern(regexp="[0-9]*", message = "Must be a number")
 	private int number2;
 
 	public int getNumber1() {

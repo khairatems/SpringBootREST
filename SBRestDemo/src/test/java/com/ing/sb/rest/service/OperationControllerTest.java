@@ -48,7 +48,7 @@ public class OperationControllerTest {
 		final String actualResponse = mvcResult.getResponse().getContentAsString();
 		assertThat(objMapper.writeValueAsString(actualResponse)).isEqualTo(objMapper.writeValueAsString("9"));
 	}
-	
+
 	@Test
 	public void testSumForPartialInput() throws Exception {
 		final FormInput requestBody = new FormInput();
@@ -61,16 +61,23 @@ public class OperationControllerTest {
 		final String actualResponse = mvcResult.getResponse().getContentAsString();
 		assertThat(objMapper.writeValueAsString(actualResponse)).isEqualTo(objMapper.writeValueAsString("5"));
 	}
+	
+	@Test
+	public void testSumForInvalidInputType() throws Exception {
+		//TODO
+	}
 
-	@Test 
+	@Test
 	public void testSumForNegaiveInput() throws Exception {
 		final FormInput requestBody = new FormInput();
-		requestBody.setNumber1(-4);
-		requestBody.setNumber2(5);
+		requestBody.setNumber1(4);
+		requestBody.setNumber2(-5);
 		String jsonBody = objMapper.writeValueAsString(requestBody);
 
-		mvc.perform(post("/api/sum").contentType(MediaType.APPLICATION_JSON).content(jsonBody))
-				.andExpect(status().isBadRequest());
+		MvcResult mvcResult = mvc.perform(post("/api/sum").contentType(MediaType.APPLICATION_JSON).content(jsonBody))
+				.andExpect(status().isBadRequest()).andReturn();
+
+		assertThat(mvcResult.getResponse().getContentAsString()).contains("must be greater than or equal to 0");
 	}
 
 	@Test
@@ -80,8 +87,10 @@ public class OperationControllerTest {
 		requestBody.setNumber2(5);
 		String jsonBody = objMapper.writeValueAsString(requestBody);
 
-		mvc.perform(post("/api/sum").contentType(MediaType.APPLICATION_JSON).content(jsonBody))
-				.andExpect(status().isBadRequest());
+		MvcResult mvcResult = mvc.perform(post("/api/sum").contentType(MediaType.APPLICATION_JSON).content(jsonBody))
+				.andExpect(status().isBadRequest()).andReturn();
+
+		assertThat(mvcResult.getResponse().getContentAsString()).contains("must be less than or equal to 1000");
 	}
 
 }
